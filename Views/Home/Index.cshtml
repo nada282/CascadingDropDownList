@@ -1,0 +1,71 @@
+﻿@model CascadingDropDownList.Models.CascadingClass
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cascading Drop Down Lists</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#droplist').on('change', function () {
+                var cityid = $('#droplist option:selected').val();
+                $.ajax({
+                    type: 'Get',
+                    data: { cityid: cityid },
+                    url: '@Url.Action("DisplayCountry","Home")',
+                    success: function (result) {
+                      //  var c = JSON.parse(result);
+                        var s = ' <option value="-1">اختر بلدة</option>';
+                        for (var i = 0; i < result.length; i++) {
+                            s += '<option value="' + result[i].Id + '">' + result[i].Name +'</option>';
+                        }
+                        $('#seconddroplist').html(s);
+                    }
+                })
+               
+            });
+        });
+    </script>
+
+</head>
+<body style="background-color:burlywood">
+    <form method="post">
+        <div class="col-md-10">
+            <center style="padding-top:200px">
+                <hr />
+                <br />
+                <select id="droplist" style="width:200px ;height:25px">
+                    <option value="-1"> اختر مدينة</option>
+                    @foreach (var cities in ViewBag.city)
+                    {
+                        <option value="@cities.City_id">
+                            @cities.City_name
+                        </option>
+                    }
+                </select>
+                <br />
+                <br />
+                <select id="seconddroplist" style="width:200px ;height:25px">
+                    @foreach (var countries in ViewBag.country)
+                    {
+                       <option value="-2"> اختر بلدة</option>
+                        <option value="@countries.Country_id">
+                            @countries.Country_name
+                        </option>
+                    }
+                </select>
+                @*@Html.DropDownList("City_name", new SelectList(ViewBag.data, "City_id", "City_name"), "--اختر مدينة --")
+        @Html.DropDownList("country", new SelectList(ViewBag.data1, "Country_id", "Country_name"), "--اختر قرية --")*@
+            </center>
+        </div>
+    </form>
+</body>
+</html>

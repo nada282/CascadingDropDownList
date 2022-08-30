@@ -1,0 +1,37 @@
+﻿@model CascadingDropDownList.Models.CascadingClass
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cascading Drop Down Lists</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+</head>
+<body>
+    <form method="post">
+        <div class="col-md-10">
+            <center style="padding-top:200px">
+
+                <select>
+                    @foreach (var cities in ViewBag.city)
+                    {
+                        <option value="@cities.City_id">
+                            @cities.City_name
+                        </option>
+                    }
+                </select>
+                @*@Html.DropDownList("City_name", new SelectList(ViewBag.data, "City_id", "City_name"), "--اختر مدينة --")
+            @Html.DropDownList("country", new SelectList(ViewBag.data1, "Country_id", "Country_name"), "--اختر قرية --")*@
+            </center>
+        </div>
+    </form>    
+</body>
+</html>
